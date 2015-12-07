@@ -1,0 +1,11 @@
+{
+  "name": "<%= appName %>",
+  "author": "<%= author %>",
+  "description": "<%= description %>",
+  "css": {"width": "<%= width %>", 
+          "height": "<%= height %>", 
+          <% if (top) {  %>"top": "<%= top %>",<% } %><%  if (bottom) {  %>"bottom": "<%= bottom %>",<% } %>
+          <% if (left) { %>"left": "<%= left %>"<% } %><% if (right) {   %>"right": "<%= right %>"<%    } %> },
+  "directive": "<%= directive %>",
+  "domElement": "<<%= domElement %>></<%= domElement %>>"
+}

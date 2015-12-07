@@ -1,0 +1,14 @@
+{
+  "name": "generator-beamng-app",
+  "version": "0.1.0",
+  "description": "A generator project for custom BeamNG.drive apps",
+  "repository": "BeamNG/generator-beamng-app",
+  "files": [
+    "generators/app"
+  ],
+  "keywords": ["yeoman-generator", "BeamNG.drive"],
+  "dependencies": {
+    "change-case": "^2.3.0",
+    "yeoman-generator": ""
+  }
+}
