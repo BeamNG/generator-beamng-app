@@ -4,17 +4,25 @@ angular.module('beamng.apps')
     restrict: 'E',
     template: '<canvas></canvas>',
     replace: true,
-    link: function (scope, element, attrs) {<% if (streams.length > 0) { %>
+    <% if (hasSettings) { %>require: '^bngApp', <% } %>
+    link: function (scope, element, attrs<% if (hasSettings) { %>, ctrl<% } %>) {<% if (streams.length > 0) { %>
+
       var streamsList = ['<%- streams.join("', '") %>'];
       StreamsManager.add(streamsList);
-      scope.$on('$destroy', function () {
-        StreamsManager.remove(streamsList);
-      });
 
       scope.$on('streamsUpdate', function (streams) {
         <% for (var s in streams) { %> // var <%= streams[s] %> = streams.<%= streams[s] %>;  
         <% } %>
       }); <% } %>
+
+      <% if (hasSettings) { %>var appSettings = null;
+
+      // Request saved settings when DOM is ready and controllers set up.
+      element.ready(function () {
+        ctrl.getSettings().then(function (settings) {
+          appSettings = settings;
+        });
+      });<% } %>
 
       var canvas = element[0]
         , ctx = canvas.getContext('2d')
@@ -33,6 +41,14 @@ angular.module('beamng.apps')
         canvas.height = data.height;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(imageObj, 0, 0, canvas.width, canvas.height)
+      });
+
+      // Do stuff when the app closes.
+      scope.$on('$destroy', function () {
+        <% if (hasSettings) { %>// Save settings
+        ctrl.saveSettings(appSettings); <% } %>
+        <% if (streams.length > 0)  { %>// Remove unnecessary streams
+        StreamsManager.remove(streamsList); <% } %>
       });
     }
   };
