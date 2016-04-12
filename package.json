@@ -1,6 +1,6 @@
 {
   "name": "generator-beamng-app",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "A generator project for custom BeamNG.drive apps",
   "repository": "BeamNG/generator-beamng-app",
   "files": [
