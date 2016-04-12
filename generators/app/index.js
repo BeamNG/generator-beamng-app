@@ -3,11 +3,11 @@ var yeoman = require('yeoman-generator')
   , util = require('util')
 ;
 
-var BeamngAppGenerator = yeoman.generators.Base.extend({
+var BeamngAppGenerator = yeoman.Base.extend({
   promptUserDialog: function () {
     var done = this.async();
 
-    this.log('Welcome to the generator!');
+    this.log('Welcome to the BeamNG app generator!');
 
     var prompts = [
       {
