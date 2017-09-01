@@ -3,8 +3,8 @@ var yeoman = require('yeoman-generator')
   , util = require('util')
 ;
 
-var BeamngAppGenerator = yeoman.Base.extend({
-  promptUserDialog: function () {
+class BeamngAppGenerator extends yeoman{
+  promptUserDialog() {
     var done = this.async();
 
     this.log('Welcome to the BeamNG app generator!');
@@ -104,16 +104,16 @@ var BeamngAppGenerator = yeoman.Base.extend({
         message: 'What is the directive name?',
         name: 'directive',
         default: changeCase.camelCase(this.appName)
-      }, function (v) { 
+      }, function (v) {
         this.directive = v.directive;
         this.domElement = changeCase.paramCase(v.directive);
-        done(); 
+        done();
       }.bind(this));
-      
-    }.bind(this));
-  },
 
-  generateFiles: function () {
+    }.bind(this));
+  }
+
+  generateFiles() {
     switch(this.appTemplate) {
     case 'general':
       this.template('_app.js', this.dirName + '/app.js', this);
@@ -132,6 +132,6 @@ var BeamngAppGenerator = yeoman.Base.extend({
     if (this.hasSettings)
       this.copy('settings.json', this.dirName + '/settings.json');
   }
-});
+}
 
 module.exports = BeamngAppGenerator;
