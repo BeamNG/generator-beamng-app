@@ -150,7 +150,10 @@ class BeamngAppGenerator extends yeoman{
       this.destinationPath(this.dirName + '/app.png')
     );
     if (this.hasSettings)
-      this.copy('settings.json', this.dirName + '/settings.json');
+      this.fs.copy(
+        this.templatePath('settings.json'),
+        this.destinationPath(this.dirName + '/settings.json')
+      );
   }
 }
 
