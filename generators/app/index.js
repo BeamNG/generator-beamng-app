@@ -3,8 +3,8 @@ var yeoman = require('yeoman-generator')
   , util = require('util')
 ;
 
-var BeamngAppGenerator = yeoman.Base.extend({
-  promptUserDialog: function () {
+class BeamngAppGenerator extends yeoman{
+  promptUserDialog() {
     var done = this.async();
 
     this.log('Welcome to the BeamNG app generator!');
@@ -82,8 +82,7 @@ var BeamngAppGenerator = yeoman.Base.extend({
       }
     ];
 
-    this.prompt(prompts, function (values) {
-
+    this.prompt(prompts).then((values) => {
       this.appName = values.appName;
       this.dirName = changeCase.pascalCase(values.appName);
       this.author = values.author;
@@ -104,34 +103,55 @@ var BeamngAppGenerator = yeoman.Base.extend({
         message: 'What is the directive name?',
         name: 'directive',
         default: changeCase.camelCase(this.appName)
-      }, function (v) { 
+      }).then((v) => {
         this.directive = v.directive;
         this.domElement = changeCase.paramCase(v.directive);
-        done(); 
-      }.bind(this));
-      
-    }.bind(this));
-  },
+        done();
+      });
+    })
+  }
 
-  generateFiles: function () {
+  generateFiles() {
     switch(this.appTemplate) {
     case 'general':
-      this.template('_app.js', this.dirName + '/app.js', this);
+      this.fs.copyTpl(
+        this.templatePath('_app.js'),
+        this.destinationPath(this.dirName + '/app.js'),
+        this
+      );
       break;
     case 'svg':
-      this.template('_app_svg.js', this.dirName + '/app.js', this);
-      this.copy('app.svg', this.dirName + '/app.svg');
+      this.fs.copyTpl(
+        this.templatePath('_app_svg.js'),
+        this.destinationPath(this.dirName + '/app.js'),
+        this
+      );
+      this.fs.copyTpl(
+        this.templatePath('app.svg'),
+        this.destinationPath(this.dirName + '/app.svg')
+      );
       break;
     case 'canvas':
-      this.template('_app_canvas.js', this.dirName + '/app.js', this);
+      this.fs.copyTpl(
+        this.templatePath('_app_canvas.js'),
+        this.destinationPath(this.dirName + '/app.js'),
+        this
+      );
       break;
     }
 
-    this.template('_app.json', this.dirName + '/app.json', this);
-    this.copy('app.png', this.dirName + '/app.png');
+    this.fs.copyTpl(
+      this.templatePath('_app.json'),
+      this.destinationPath(this.dirName + '/app.json'),
+      this
+    );
+    this.fs.copy(
+      this.templatePath('app.png'),
+      this.destinationPath(this.dirName + '/app.png')
+    );
     if (this.hasSettings)
       this.copy('settings.json', this.dirName + '/settings.json');
   }
-});
+}
 
 module.exports = BeamngAppGenerator;
